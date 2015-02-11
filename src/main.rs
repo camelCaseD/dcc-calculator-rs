@@ -16,7 +16,7 @@ fn main() {
         let angle: f32 = calculate_angle(&velocity);
         let force: f32 = calculate_force(&velocity);
 
-        println!("The time the ball will travel is {}s", time);
+        println!("The time it'll take the ball to travel is {}s", time);
         println!("The velocity of the ball will be {} m/s", velocity.v);
         println!("The angle of the launcher should be {}º", angle);
         println!("The force exerted by the launcher on the ball should be {} N", force);
