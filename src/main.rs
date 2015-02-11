@@ -13,8 +13,8 @@ fn main() {
     loop {
         let time: f32 = calculate_time();
         let velocity: Velocity = calculate_velocity(time);
-        let angle: f32 = calculate_angle(velocity.x, velocity.y);
-        let force: f32 = calculate_force(velocity.v);
+        let angle: f32 = calculate_angle(&velocity);
+        let force: f32 = calculate_force(&velocity);
 
         println!("The time the ball will travel is {}s", time);
         println!("The velocity of the ball will be {} m/s", velocity.v);
@@ -49,14 +49,16 @@ fn calculate_velocity(time: f32) -> Velocity {
     let velocity_x: f32 = range / time;
     let velocity_y: f32 = 9.8 * time;
 
-    return Velocity { x: velocity_x, y: velocity_y, v: Float::sqrt(Float::powf(velocity_x, 2.0) + Float::powf(velocity_y, 2.0))};
+    let velocity = Velocity { x: velocity_x, y: velocity_y, v: Float::sqrt(Float::powf(velocity_x, 2.0) + Float::powf(velocity_y, 2.0))};
+
+    return velocity;
 }
 
-fn calculate_angle(velocity_x: f32, velocity_y: f32) -> f32 {
-    return Float::atan(velocity_y / velocity_x).to_degrees();
+fn calculate_angle(velocity: &Velocity) -> f32 {
+    return Float::atan(velocity.y / velocity.x).to_degrees();
 }
 
-fn calculate_force(velocity: f32) -> f32 {
+fn calculate_force(velocity: &Velocity) -> f32 {
     println!("Enter the mass of the ball");
     let input_m = io::stdin().read_line().ok().expect("Failed to read line");
     let input_num_m: Option<f32> = input_m.trim().parse();
@@ -75,7 +77,7 @@ fn calculate_force(velocity: f32) -> f32 {
         None => 0.0
     };
 
-    let acceleration: f32 = Float::powf(velocity, 2.0) / 2.0 * length;
+    let acceleration: f32 = Float::powf(velocity.v, 2.0) / 2.0 * length;
 
     return mass * acceleration;
 }
